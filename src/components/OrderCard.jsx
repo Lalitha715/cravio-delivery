@@ -3,8 +3,7 @@ const OrderCard = ({
   orderNumber,
   userName,
   userAddress,
-  restaurantName,
-  restaurantAddress,
+  restaurants,
   status,
   buttonText,
   onButtonClick,
@@ -13,18 +12,20 @@ const OrderCard = ({
     <div className="bg-white p-5 rounded-xl shadow">
       <h3 className="font-semibold mb-2">Order #{orderNumber}</h3>
 
-      {/* Restaurant Pickup Details */}
-      {restaurantName && restaurantAddress ? (
-        <div className="mb-3">
-          <p className="text-gray-800 font-semibold">Pickup From:</p>
-          <p className="text-gray-700">{restaurantName}</p>
-          <p className="text-gray-600">{restaurantAddress.address}</p>
-          {restaurantAddress.latitude && restaurantAddress.longitude && (
-            <p className="text-gray-500 text-sm">
-              Lat: {restaurantAddress.latitude}, Lng: {restaurantAddress.longitude}
-            </p>
-          )}
-        </div>
+      {/* 🔥 Multi Restaurant Pickup Details */}
+      {restaurants && restaurants.length > 0 ? (
+        restaurants.map((rest) => (
+          <div key={rest.id} className="mb-3">
+            <p className="text-gray-800 font-semibold">Pickup From:</p>
+            <p className="text-gray-700">{rest.name}</p>
+            <p className="text-gray-600">{rest.address}</p>
+            {rest.latitude && rest.longitude && (
+              <p className="text-gray-500 text-sm">
+                Lat: {rest.latitude}, Lng: {rest.longitude}
+              </p>
+            )}
+          </div>
+        ))
       ) : (
         <p className="text-red-500 mb-2">Restaurant not linked yet</p>
       )}
@@ -46,7 +47,11 @@ const OrderCard = ({
       )}
 
       {/* Status */}
-      {status && <p className="text-green-600 font-semibold mb-2">Status: {status}</p>}
+      {status && (
+        <p className="text-green-600 font-semibold mb-2">
+          Status: {status}
+        </p>
+      )}
 
       {/* Accept Button */}
       {buttonText && onButtonClick && (

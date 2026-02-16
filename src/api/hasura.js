@@ -47,7 +47,7 @@ export const getAssignedOrders = async (deliveryBoyId) => {
 export const getUnassignedOrders = async () => {
   const QUERY = gql`
     query GetUnassignedOrders {
-      orders(where: { delivery_boy_id: { _is_null: true }, status: { _eq: "pending" } }) {
+      orders(where: { delivery_boy_id: { _is_null: true }, status: { _eq: "preparing" } }) {
         id
         order_number
         status
@@ -61,12 +61,15 @@ export const getUnassignedOrders = async () => {
             longitude
           }
         }
-        restaurant {
-          name
-          address
-          latitude
-          longitude
-        }
+        order_items{
+        dish{
+        restaurant{
+        id
+        name
+        address
+        latitude
+        longitude
+        }}}
       }
     }
   `;
